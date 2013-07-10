@@ -1,23 +1,23 @@
 {
         id: "0",
         name: 'Magnus Ivarson',
-        data: {type: 'name'},
+        data: {type: 'person'},
         children: [
         {
             id: "1",
-            name: "A Paper on Fossilized Bacterium",
+            name: "Degradation of phenol in an upflow anaerobic sludge blanket (UASB) reactor at ambient temperature.",
             data: {type: 'publication'},
             children: []
         },
         {
             id: "2",
-            name: "Paper #2 Title",
+            name: "Bioreactor studies predict whole microbial population dynamics in oil sands tailings ponds.",
             data: {type: 'publication'},
             children: []
         },
         {
             id: "3",
-            name: "Paper #3 Title",
+            name: "Upflow anaerobic sludge blanket reactor--a review.",
             data: {type: 'publication'},
             children: []
         }

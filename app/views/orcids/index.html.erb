@@ -48,11 +48,20 @@ function init(){
 
     //init data
     // which search are we running / what params? -- FIRST, totally fake out data JIC/forTesting! :)
-    <% if params['namesearch'] 
-        url = 'http://localhost:3000/namesearch.json'
+    //#'http://localhost:3000/namesearch.json?' + params['namesearch'].gsub(" ", "%20")
+    <% if params[:oid]
+        url = "http://puffin.ecs.soton.ac.uk/cgi/get_pubs?oid=#{params[:oid]}"
+    elsif params[:doi]
+        url = "http://puffin.ecs.soton.ac.uk/cgi/get_pubs?doi=#{params[:doi]}"
+    elsif params[:pmid]
+        url = "http://puffin.ecs.soton.ac.uk/cgi/get_pubs?pubmedid=#{params[:pmid]}"
+    elsif params[:fn]
+        url = "http://puffin.ecs.soton.ac.uk/cgi/get_pubs?fn=#{params[:fn]}&ln=#{params[:ln]}"
     else
-        url = 'http://localhost:3000/titlesearch.json'
+        url = 'http://localhost:3000/titlesearch.json?' + params['titlesearch'].gsub(" ", "%20")
     end %>
+
+    console.log("<%=url%>")
 
     var json = <%= Net::HTTP.get(URI.parse(url)).html_safe %>;
     
@@ -126,13 +135,35 @@ function init(){
         //Use this method to add event handlers and styles to
         //your node.
         onCreateLabel: function(label, node){
-            label.id = node.id;            
-            label.innerHTML = node.name;
+            label.id = node.id;
+            label.innerHTML = node.name.substring(0,90);
+                if (node.data.orcid != undefined)
+                {
+                    label.innerHTML = label.innerHTML + "<br>&nbsp;" + node.data.orcid ;
+                }
+
+            label.innerHTML = label.innerHTML + '<br><div style="font-size:.8em;position: absolute; bottom: 7px;">';
+            if (node.data.target != undefined) {
+                label.innerHTML = label.innerHTML + '<a href="' + node.data.target + '" target="_blank">Article</a>'; 
+            } 
+            label.innerHTML = label.innerHTML + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=' + '"http://localhost:8080/rest/fcr:search?q=' + node.name + '" target="_blank">Search Fedora</a>'
+             + '</div>'
             label.onclick = function(){
-                if (node.data.type == 'name') {
-                    location.href = "/namesearch/" + node.name; 
-                } else if (node.data.type == 'publication') {
-                    location.href = "/titlesearch/" + node.name; 
+                v = node.name.replace(/\./g, '')
+                console.log(node.data)
+                if (node.data.orcid != undefined) {
+                    location.href = "/namesearch/search?oid=" + node.data.orcid; 
+                }
+                else if (node.data.type == 'person') {
+                    location.href = "/namesearch/search?=" + v; 
+                } else if (node.data.id_type == 'doi') {
+                    //#10.1111/j.1365-2567.2008.02825.x
+                    location.href = "/namesearch/search?doi=" + node.data.id; 
+                } else if (node.data.id_type == 'pmid') {
+                    //#10.1111/j.1365-2567.2008.02825.x
+                    location.href = "/namesearch/search?pmid=" + node.data.id; 
+                } else {
+                    location.href = "/namesearch/search?fn=" + node.data.fn + "&ln=" + node.data.ln; 
                 }
                 //st.setRoot(node.id, 'animate');
             };
@@ -173,7 +204,7 @@ function init(){
                 }
             }
 
-            if (node.data.type == 'name') {
+            if (node.data.type == 'person') {
                 node.data.$color = '#faa';
             } else if (node.data.type == 'publication') {
                 node.data.$color = '#baa';
@@ -254,11 +285,6 @@ function init(){
         <div style="display:none" id="log"></div>
     </div>
 </div>
-<% if params['namesearch'] %>
-  <h4>name search:<%=params['namesearch']%></h4>
-<% else %>
-  <h4>title search:<%=params['titlesearch']%></h4>
-<% end %>
 
 </body>
 </html>

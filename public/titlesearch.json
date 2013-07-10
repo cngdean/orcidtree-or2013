@@ -1,24 +1,24 @@
 {
         id: "0",
-        name: 'A Paper on Fossilized Bacterium',
+        name: 'Degradation of phenol in an upflow anaerobic sludge blanket (UASB) reactor at ambient temperature',
         data: {type: 'publication'},
         children: [
         {
             id: "1",
             name: "Magnus Ivarrson",
-            data: {type: 'name'},
+            data: {type: 'person'},
             children: []
         },
         {
             id: "2",
             name: "Shelia Fake",
-            data: {type: 'name'},
+            data: {type: 'person'},
             children: []
         },
         {
             id: "3",
-            name: "Jason Data",
-            data: {type: 'name'},
+            name: "Dhagat NN",
+            data: {type: 'person'},
             children: []
         }
         ]
