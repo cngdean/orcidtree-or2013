@@ -163,7 +163,7 @@ function init(){
                     //#10.1111/j.1365-2567.2008.02825.x
                     location.href = "/namesearch/search?pmid=" + node.data.id; 
                 } else {
-                    location.href = "/namesearch/search?fn=" + node.data.fn + "&ln=" + node.data.ln; 
+                    //location.href = "/namesearch/search?fn=" + node.data.fn + "&ln=" + node.data.ln; 
                 }
                 //st.setRoot(node.id, 'animate');
             };
@@ -188,7 +188,7 @@ function init(){
             //add some color to the nodes in the path between the
             //root node and the selected node.
             if (node.selected) {
-                node.data.$color = "#ff7";
+                //node.data.$color = "#ff7";
                 // could change node height here to be min or something? node.data.$height = 250;
             }
             else {
@@ -204,9 +204,14 @@ function init(){
                 }
             }
 
+            console.log(node.data.type)
+
             if (node.data.type == 'person') {
-                node.data.$color = '#faa';
-            } else if (node.data.type == 'publication') {
+                node.data.$color = '#ee8';                
+            }
+            else if (node.data.type == 'orcid') {
+                node.data.$color = '#ff7';
+            } else {
                 node.data.$color = '#baa';
             }
         },
