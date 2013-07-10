@@ -29,7 +29,7 @@ var Log = {
 
 function init(){
     //init data
-    var json = jQuery.getJSON( '/fakejson.html', function( data ){
+    var json = jQuery.getJSON( '/smallfakejson.html', function( data ){
 
             var arr = [];
             $.each(data, function(key, val) {

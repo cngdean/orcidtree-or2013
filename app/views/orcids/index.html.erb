@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Spacetree - MultiTree</title>
+<title>Orcid / PubMed Search Visualization - OR2013</title>
 
 <!-- CSS Files -->
 <link type="text/css" href="css/base.css" rel="stylesheet" />
@@ -47,8 +47,14 @@ function init(){
     //jquery use getJSON/get?
 
     //init data
-    var json = <%= Net::HTTP.get(URI.parse('http://localhost:3000/fakejson.html')).html_safe %>;
-    console.log(json);
+    // which search are we running / what params? -- FIRST, totally fake out data JIC/forTesting! :)
+    <% if params['namesearch'] 
+        url = 'http://localhost:3000/namesearch.json'
+    else
+        url = 'http://localhost:3000/titlesearch.json'
+    end %>
+
+    var json = <%= Net::HTTP.get(URI.parse(url)).html_safe %>;
     
     //preprocess subtrees orientation
     var arr = json.children, len = arr.length;
@@ -123,8 +129,12 @@ function init(){
             label.id = node.id;            
             label.innerHTML = node.name;
             label.onclick = function(){
+                if (node.data.type == 'name') {
+                    location.href = "/namesearch/" + node.name; 
+                } else if (node.data.type == 'publication') {
+                    location.href = "/titlesearch/" + node.name; 
+                }
                 //st.setRoot(node.id, 'animate');
-                location.href = "/namesearch/" + node.name; 
             };
             //set label styles
             var style = label.style;
@@ -159,8 +169,14 @@ function init(){
                     node.eachSubnode(function(n) { count++; });
                     //assign a node color based on
                     //how many children it has
-                    node.data.$color = ['#aaa', '#baa', '#caa', '#daa', '#eaa', '#faa'][count];
+                    //node.data.$color = ['#aaa', '#baa', '#caa', '#daa', '#eaa', '#faa'][count];
                 }
+            }
+
+            if (node.data.type == 'name') {
+                node.data.$color = '#faa';
+            } else if (node.data.type == 'publication') {
+                node.data.$color = '#baa';
             }
         },
         
@@ -235,9 +251,14 @@ function init(){
 
     <div id="center-container">
         <div id="infovis"></div>    
-        <div id="log"></div>
+        <div style="display:none" id="log"></div>
     </div>
 </div>
+<% if params['namesearch'] %>
+  <h4>name search:<%=params['namesearch']%></h4>
+<% else %>
+  <h4>title search:<%=params['titlesearch']%></h4>
+<% end %>
 
 </body>
 </html>

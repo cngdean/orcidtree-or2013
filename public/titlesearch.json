@@ -1,0 +1,25 @@
+{
+        id: "0",
+        name: 'A Paper on Fossilized Bacterium',
+        data: {type: 'publication'},
+        children: [
+        {
+            id: "1",
+            name: "Magnus Ivarrson",
+            data: {type: 'name'},
+            children: []
+        },
+        {
+            id: "2",
+            name: "Shelia Fake",
+            data: {type: 'name'},
+            children: []
+        },
+        {
+            id: "3",
+            name: "Jason Data",
+            data: {type: 'name'},
+            children: []
+        }
+        ]
+}
