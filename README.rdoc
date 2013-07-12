@@ -1,3 +1,5 @@
 OR2013 Developer Challenge Submission
 
 Visualizes ORCID data
+
+The main HTML file is app/views/orcids/index.html.erb
