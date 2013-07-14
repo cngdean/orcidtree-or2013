@@ -1,4 +1,5 @@
 OR2013 Developer Challenge Submission
+-------------------------------------
 
 Visualizes ORCID data
 
